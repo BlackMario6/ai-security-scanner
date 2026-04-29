@@ -1,20 +1,151 @@
 <!DOCTYPE html>
-<html>
-<head><title>AI Security Scanner</title></head>
-<body>
-<h1>AI Security Scanner</h1>
-<form action="/scan" method="post">
-<input type="text" name="target" placeholder="https://example.com" required>
-<button type="submit">Scan</button>
-</form>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Security Scanner</title>
 
-{% if result %}
-<ul>
-{% for item in result %}
-<li>{{ item.issue }} - {{ item.url }}</li>
-{% endfor %}
-</ul>
-<a href="/download">Download Report</a>
-{% endif %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #f1f5f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            background: #111827;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #3b82f6;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #1f2933;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .severity {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin-left: 10px;
+        }
+
+        .medium {
+            background: orange;
+            color: black;
+        }
+
+        .high {
+            background: red;
+        }
+
+        .low {
+            background: green;
+        }
+
+        .download {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: white;
+            background: #10b981;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        .download:hover {
+            background: #059669;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🔐 AI Security Scanner</h1>
+
+    <form action="/scan" method="post">
+        <input type="text" name="target" placeholder="Enter target URL (https://example.com)" required>
+        <button type="submit">Scan</button>
+    </form>
+
+    {% if target %}
+        <p><b>Target:</b> {{ target }}</p>
+    {% endif %}
+
+    {% if result %}
+        <div class="result">
+            <h3>Findings ({{ result|length }})</h3>
+
+            {% for item in result %}
+                <div class="card">
+                    <b>{{ item.issue }}</b>
+                    <span class="severity {{ item.severity|lower }}">{{ item.severity }}</span>
+                    <p>{{ item.url }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if report_ready %}
+        <a class="download" href="/download">⬇ Download Report</a>
+    {% endif %}
+
+    <div class="footer">
+        AI Security Scanner • Demo Project
+    </div>
+</div>
+
 </body>
 </html>
