@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>AI Security Scanner</title></head>
+<body>
+<h1>AI Security Scanner</h1>
+<form action="/scan" method="post">
+<input type="text" name="target" placeholder="https://example.com" required>
+<button type="submit">Scan</button>
+</form>
+
+{% if result %}
+<ul>
+{% for item in result %}
+<li>{{ item.issue }} - {{ item.url }}</li>
+{% endfor %}
+</ul>
+<a href="/download">Download Report</a>
+{% endif %}
+</body>
+</html>
